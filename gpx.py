@@ -1,11 +1,11 @@
 #!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 
+import os
 import gpxpy
 import gpxpy.gpx
 
-path = 'E:\\Photos\\101D300S\\test.gpx';
-
+path = os.path.join(os.path.abspath('.'), 'test.gpx');
 gpx_file = open(path, 'r')
 
 gpx = gpxpy.parse(gpx_file)
