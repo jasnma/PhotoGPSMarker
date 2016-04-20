@@ -13,4 +13,4 @@ gpx = gpxpy.parse(gpx_file)
 for track in gpx.tracks:
   for segment in track.segments:
     for point in segment.points:
-      print 'Point at ({0},{1}) -> {2}'.format(point.latitude, point.longitude, point.time)
+      print 'Point at ({0},{1}, {2}) -> {3}'.format(point.latitude, point.longitude, point.elevation, point.time)

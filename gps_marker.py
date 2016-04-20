@@ -4,7 +4,7 @@
 import sys
 import os
 import gpxpy
-import pyexiv2
+import pyexiv2, fractions
 import datetime
 
 __author__ = 'Chen Hai'
@@ -70,6 +70,11 @@ class GPSMarker:
     if timedelta.seconds > 600: # Ten minutes.
       index = -1
     return index
+  
+  @staticmethod  
+  def float_to_rational(value):
+    frac = fractions.Fraction(abs(value)).limit_denominator(99999)
+    return pyexiv2.Rational(frac.numerator, frac.denominator)
 
   @staticmethod
   def is_photo(file_name):
@@ -77,6 +82,8 @@ class GPSMarker:
     if '.nef' == extension:
       return True
     elif '.jpeg' == extension:
+      return True;
+    elif '.jpg' == extension:
       return True;
     elif '.cr2' == extension or '.crw' == extension:
       return True
@@ -125,6 +132,12 @@ class GPSMarker:
       metadata['Exif.GPSInfo.GPSLatitudeRef'] = 'N'
     else:
       metadata['Exif.GPSInfo.GPSLatitudeRef'] = 'S'
+    if point.elevation > 0:  
+      metadata['Exif.GPSInfo.GPSAltitudeRef'] = '0';
+    else:
+      metadata['Exif.GPSInfo.GPSAltitudeRef'] = '1';
+    gps_altitude = pyexiv2.Rational(abs(point.elevation) * 1000, 1000)
+    
     gps_longitude = pyexiv2.NotifyingList()
     gps_longitude.append(pyexiv2.Rational(point.longitude, 1))
     minute = (point.longitude - int(point.longitude)) * 60
@@ -138,8 +151,19 @@ class GPSMarker:
     gps_latitude.append(pyexiv2.Rational(minute, 1))
     second = (minute - int(minute)) * 60
     gps_latitude.append(pyexiv2.Rational(minute * 10000, 10000))
+    
+    gps_time_stamp = pyexiv2.NotifyingList()
+    gps_time_stamp.append(pyexiv2.Rational(point.time.hour, 1))
+    gps_time_stamp.append(pyexiv2.Rational(point.time.minute, 1))    
+    gps_time_stamp.append(pyexiv2.Rational(
+        point.time.second * 100 + point.time.microsecond / 10000,
+        100))
+                        
     metadata['Exif.GPSInfo.GPSLongitude'] = gps_longitude
     metadata['Exif.GPSInfo.GPSLatitude'] = gps_latitude
+    metadata['Exif.GPSInfo.GPSAltitude'] = gps_altitude
+    metadata['Exif.GPSInfo.GPSDateStamp'] = point.time.strftime('%Y-%m-%d')
+    metadata['Exif.GPSInfo.GPSTimeStamp'] = gps_time_stamp
     print metadata['Exif.GPSInfo.GPSLongitudeRef'].value, metadata['Exif.GPSInfo.GPSLongitude'].value
     print metadata['Exif.GPSInfo.GPSLatitudeRef'].value, metadata['Exif.GPSInfo.GPSLatitude'].value
     metadata.write()
