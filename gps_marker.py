@@ -43,6 +43,8 @@ class GPSMarker:
 
   def find_point(self, time):
     length = len(self._points)
+    if length == 0:
+      return -1
     start = 0
     end = length
     index = start;
