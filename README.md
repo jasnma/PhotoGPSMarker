@@ -15,7 +15,7 @@ GPX文件中存储在许多GPS信息，包括经度、纬度、时间、海拔�
 GPX其实是一个XML文件，解析它其实并不难。不过Tomo Krajina 已经写了一个解析器“gpxpy”，于是我就直接拿来用了。我们可以从[https://github.com/tkrajina/gpxpy][1]获得gpxpy。当然要使用PhotoGPSMarker，也要先安装gpxpy。
 
 ## 读写照片的EXIF
-照片中的GPS信息存储在照片的EXIF头中，要想增加PGS信息必需要能读写EXIF头。我使用了开源库“pyexiv2”，作为EXIF读写工具。
+照片中的GPS信息存储在照片的EXIF头中，要想增加GPS信息必需要能读写EXIF头。我使用了开源库“pyexiv2”，作为EXIF读写工具。
 可以从[http://tilloy.net/dev/pyexiv2/][2] 获得并安装。
 
 
