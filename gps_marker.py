@@ -69,7 +69,7 @@ class GPSMarker:
       if (abs(subsequent.time - time) < timedelta):
         timedelta = abs(subsequent.time - time)
         index = index + 1
-    if timedelta.seconds > 600: # Ten minutes.
+    if timedelta.seconds > 600:  # Ten minutes
       index = -1
     return index
   
@@ -134,7 +134,7 @@ class GPSMarker:
       metadata['Exif.GPSInfo.GPSLatitudeRef'] = 'N'
     else:
       metadata['Exif.GPSInfo.GPSLatitudeRef'] = 'S'
-    if point.elevation > 0:  
+    if point.elevation > 0:
       metadata['Exif.GPSInfo.GPSAltitudeRef'] = '0';
     else:
       metadata['Exif.GPSInfo.GPSAltitudeRef'] = '1';
