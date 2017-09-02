@@ -3,9 +3,10 @@
 
 import sys
 import os
+import datetime
+
 import gpxpy
 import pyexiv2, fractions
-import datetime
 
 __author__ = 'Chen Hai'
   
@@ -25,9 +26,9 @@ class GPSMarker:
     return point.time
 
   def load_gpx(self, path):
-    gpx_file = open(path, 'r')
-    gpx = gpxpy.parse(gpx_file)
-    gpx_file.close()
+    with open(path, 'r') as gpx_file
+      gpx = gpxpy.parse(gpx_file)
+
     for track in gpx.tracks:
       for segment in track.segments:
         self._points.extend(segment.points)
