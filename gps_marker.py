@@ -26,7 +26,7 @@ class GPSMarker:
     return point.time
 
   def load_gpx(self, path):
-    with open(path, 'r') as gpx_file
+    with open(path, 'r') as gpx_file:
       gpx = gpxpy.parse(gpx_file)
 
     for track in gpx.tracks:
