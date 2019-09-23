@@ -15,4 +15,4 @@ for key in metadata.exif_keys :
     continue
   print metadata[key]
 
-  
+   
